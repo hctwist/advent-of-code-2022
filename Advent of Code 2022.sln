@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent of Code 2022", "Advent of Code 2022\Advent of Code 2022.csproj", "{7FFF76B0-EA36-4DC0-AF6A-883C8ADE4F0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent of Code Framework", "..\Framework\Advent of Code Framework\Advent of Code Framework.csproj", "{12CE7CBF-D2DE-4AC6-AF21-16479F981CEB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7FFF76B0-EA36-4DC0-AF6A-883C8ADE4F0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FFF76B0-EA36-4DC0-AF6A-883C8ADE4F0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FFF76B0-EA36-4DC0-AF6A-883C8ADE4F0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFF76B0-EA36-4DC0-AF6A-883C8ADE4F0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12CE7CBF-D2DE-4AC6-AF21-16479F981CEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12CE7CBF-D2DE-4AC6-AF21-16479F981CEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12CE7CBF-D2DE-4AC6-AF21-16479F981CEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12CE7CBF-D2DE-4AC6-AF21-16479F981CEB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

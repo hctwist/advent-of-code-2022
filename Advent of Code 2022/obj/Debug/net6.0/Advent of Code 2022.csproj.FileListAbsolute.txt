@@ -1,0 +1,19 @@
+X:\Projects\Advent of Code\2022\Advent of Code 2022\bin\Debug\net6.0\Advent of Code 2022.exe
+X:\Projects\Advent of Code\2022\Advent of Code 2022\bin\Debug\net6.0\Advent of Code 2022.deps.json
+X:\Projects\Advent of Code\2022\Advent of Code 2022\bin\Debug\net6.0\Advent of Code 2022.runtimeconfig.json
+X:\Projects\Advent of Code\2022\Advent of Code 2022\bin\Debug\net6.0\Advent of Code 2022.dll
+X:\Projects\Advent of Code\2022\Advent of Code 2022\bin\Debug\net6.0\Advent of Code 2022.pdb
+X:\Projects\Advent of Code\2022\Advent of Code 2022\bin\Debug\net6.0\Advent of Code Framework.dll
+X:\Projects\Advent of Code\2022\Advent of Code 2022\bin\Debug\net6.0\Advent of Code Framework.pdb
+X:\Projects\Advent of Code\2022\Advent of Code 2022\obj\Debug\net6.0\Advent of Code 2022.csproj.AssemblyReference.cache
+X:\Projects\Advent of Code\2022\Advent of Code 2022\obj\Debug\net6.0\Advent of Code 2022.GeneratedMSBuildEditorConfig.editorconfig
+X:\Projects\Advent of Code\2022\Advent of Code 2022\obj\Debug\net6.0\Advent of Code 2022.AssemblyInfoInputs.cache
+X:\Projects\Advent of Code\2022\Advent of Code 2022\obj\Debug\net6.0\Advent of Code 2022.AssemblyInfo.cs
+X:\Projects\Advent of Code\2022\Advent of Code 2022\obj\Debug\net6.0\Advent of Code 2022.csproj.CoreCompileInputs.cache
+X:\Projects\Advent of Code\2022\Advent of Code 2022\obj\Debug\net6.0\Advent of Code 2022.csproj.CopyComplete
+X:\Projects\Advent of Code\2022\Advent of Code 2022\obj\Debug\net6.0\Advent of Code 2022.dll
+X:\Projects\Advent of Code\2022\Advent of Code 2022\obj\Debug\net6.0\refint\Advent of Code 2022.dll
+X:\Projects\Advent of Code\2022\Advent of Code 2022\obj\Debug\net6.0\Advent of Code 2022.pdb
+X:\Projects\Advent of Code\2022\Advent of Code 2022\obj\Debug\net6.0\Advent of Code 2022.genruntimeconfig.cache
+X:\Projects\Advent of Code\2022\Advent of Code 2022\obj\Debug\net6.0\ref\Advent of Code 2022.dll
+X:\Projects\Advent of Code\2022\Advent of Code 2022\bin\Debug\net6.0\Input\Input1.txt
