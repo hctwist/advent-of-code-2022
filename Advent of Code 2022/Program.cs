@@ -1,3 +1,4 @@
 ﻿using AdventOfCode.Framework;
 
-SolutionRunner.Run(new[] { "run", "1" });
+SolutionRunner runner = new("Input");
+runner.Solve(2);

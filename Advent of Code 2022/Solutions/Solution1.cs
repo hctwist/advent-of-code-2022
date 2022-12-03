@@ -1,11 +1,13 @@
 ﻿using AdventOfCode.Framework;
 
-namespace Advent_of_Code_2022.Solutions;
+namespace AdventofCode2022.Solutions;
 
 /// <summary>
 /// https://adventofcode.com/2022/day/1
 /// </summary>
-[Solution(1, "Input/Input1.txt")]
+[Solution(1)]
+[SolutionInput("Input1.test.txt")]
+[SolutionInput("Input1.txt")]
 public class Solution1 : Solution
 {
     private readonly List<List<int>> calories;
@@ -13,7 +15,7 @@ public class Solution1 : Solution
     public Solution1(Input input) : base(input)
     {
         calories = new List<List<int>>();
-        
+
         List<int> current = new();
 
         foreach (string line in Input.Lines)
