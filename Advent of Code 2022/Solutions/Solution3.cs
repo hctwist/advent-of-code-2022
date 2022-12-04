@@ -1,6 +1,6 @@
 ﻿using AdventOfCode.Framework;
 
-namespace AdventofCode2022.Solutions;
+namespace AdventOfCode2022.Solutions;
 
 /// <summary>
 /// https://adventofcode.com/2022/day/3
