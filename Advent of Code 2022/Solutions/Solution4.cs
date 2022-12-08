@@ -7,7 +7,7 @@ namespace AdventOfCode2022.Solutions;
 /// </summary>
 [Solution(4)]
 [SolutionInput("Input4.test.txt")]
-[SolutionInput("Input4.txt")]
+[SolutionInput("Input4.txt", Benchmark = true)]
 public class Solution4 : Solution
 {
     private readonly List<(SectionRange, SectionRange)> sectionAssignments;

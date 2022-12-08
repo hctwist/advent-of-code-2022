@@ -39,10 +39,16 @@
       <None Update="Input\Input5.test.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="Input\Input6.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Input\Input6.test.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AdventOfCode.Framework" Version="1.1.2" />
+      <PackageReference Include="AdventOfCode.Framework" Version="1.2.1" />
     </ItemGroup>
 
 </Project>

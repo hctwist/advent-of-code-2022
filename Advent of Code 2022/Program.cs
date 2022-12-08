@@ -1,4 +1,9 @@
 ﻿using AdventOfCode.Framework;
+using AdventOfCode.Framework.Runner;
 
-SolutionRunner runner = new("Input");
-runner.Solve(5);
+SolutionRunner runner = new(
+    new Options()
+    {
+        InputBaseDirectory = "Input"
+    });
+runner.SolveLatest();

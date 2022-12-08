@@ -8,7 +8,7 @@ namespace AdventOfCode2022.Solutions;
 /// </summary>
 [Solution(5)]
 [SolutionInput("Input5.test.txt")]
-[SolutionInput("Input5.txt")]
+[SolutionInput("Input5.txt", Benchmark = true)]
 public class Solution5 : Solution
 {
     private static readonly Regex InstructionPattern = new(@"^move (\d+) from (\d+) to (\d+)$");

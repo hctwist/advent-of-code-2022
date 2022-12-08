@@ -7,7 +7,7 @@ namespace AdventOfCode2022.Solutions;
 /// </summary>
 [Solution(2)]
 [SolutionInput("Input2.test.txt")]
-[SolutionInput("Input2.txt")]
+[SolutionInput("Input2.txt", Benchmark = true)]
 public class Solution2 : Solution
 {
     private static readonly Dictionary<string, Move> MoveLookup = new()
