@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using AdventOfCode.Framework;
+﻿using AdventOfCode.Framework;
 
 namespace AdventOfCode2022.Solutions;
 
