@@ -26,17 +26,17 @@ public class Solution11 : Solution
         for (int i = 0; i < Input.Lines.Length; i += 7)
         {
             Match startingItemsMatch = StartingItemsPattern.Match(Input.Lines[i + 1]);
-            List<int> startingItems = startingItemsMatch.Groups[1]
+            List<long> startingItems = startingItemsMatch.Groups[1]
                 .Value
                 .Split(", ", StringSplitOptions.RemoveEmptyEntries)
-                .Select(int.Parse)
+                .Select(long.Parse)
                 .ToList();
 
             Match operationMatch = OperationPattern.Match(Input.Lines[i + 2]);
             Func<int, int> leftOperandFactory = ParseOperand(operationMatch.Groups[1].Value);
             Func<int, int> rightOperandFactory = ParseOperand(operationMatch.Groups[3].Value);
-            Func<int, int, int> binaryOperator = ParseBinaryOperator(operationMatch.Groups[2].Value);
-            int Operation(int worryLevel) => binaryOperator(leftOperandFactory(worryLevel), rightOperandFactory(worryLevel));
+            Func<long, long, long> binaryOperator = ParseBinaryOperator(operationMatch.Groups[2].Value);
+            long Operation(int worryLevel) => binaryOperator(leftOperandFactory(worryLevel), rightOperandFactory(worryLevel));
 
             Match testMatch = TestPattern.Match(Input.Lines[i + 3]);
             int testDivisor = int.Parse(testMatch.Groups[1].Value);
@@ -44,13 +44,12 @@ public class Solution11 : Solution
             int testIfTrueMonkey = int.Parse(testIfTrue.Groups[1].Value);
             Match testIfFalse = TestIfFalsePattern.Match(Input.Lines[i + 5]);
             int testIfFalseMonkey = int.Parse(testIfFalse.Groups[1].Value);
-            int GetMonkeyToThrowTo(int worryLevel) => worryLevel % testDivisor == 0 ? testIfTrueMonkey : testIfFalseMonkey;
 
-            monkeys.Add(new Monkey(startingItems, Operation, GetMonkeyToThrowTo));
+            monkeys.Add(new Monkey(startingItems, Operation, new Test(testDivisor, testIfTrueMonkey, testIfFalseMonkey)));
         }
     }
 
-    private static Func<int, int, int> ParseBinaryOperator(string operation)
+    private static Func<long, long, long> ParseBinaryOperator(string operation)
     {
         return operation switch
         {
@@ -69,7 +68,7 @@ public class Solution11 : Solution
         else
         {
             int operandValue = int.Parse(operand);
-            return x => operandValue;
+            return _ => operandValue;
         }
     }
 
@@ -82,12 +81,13 @@ public class Solution11 : Solution
     /// <inheritdoc />
     protected override string? Problem2()
     {
-        return GetMonkeyBusiness(10_000, x => x).ToString();
+        int t = monkeys.Aggregate(1, (a, b) => a * b.Test.Divisor);
+        return GetMonkeyBusiness(10_000, x => x % t).ToString();
     }
 
-    private int GetMonkeyBusiness(int rounds, Func<int, int> worryAdjustment)
+    private long GetMonkeyBusiness(int rounds, Func<long, long> worryAdjustment)
     {
-        List<int> inspections = monkeys.Select(_ => 0).ToList();
+        List<long> inspections = monkeys.Select(_ => 0L).ToList();
 
         for (int round = 0; round < rounds; round++)
         {
@@ -97,9 +97,11 @@ public class Solution11 : Solution
 
                 foreach (int item in monkey.Items)
                 {
-                    int adjustedItem = monkey.Operation(item);
+                    long adjustedItem = monkey.Operation(item);
                     adjustedItem = worryAdjustment(adjustedItem);
-                    int targetMonkey = monkey.GetMonkeyToThrowTo(adjustedItem);
+                    int targetMonkey = adjustedItem % monkey.Test.Divisor == 0 ?
+                        monkey.Test.MonkeyIfDivisible :
+                        monkey.Test.MonkeyOtherwise;
                     monkeys[targetMonkey].Items.Add(adjustedItem);
                 }
                 inspections[m] += monkey.Items.Count;
@@ -107,8 +109,10 @@ public class Solution11 : Solution
             }
         }
 
-        return inspections.OrderByDescending(i => i).Take(2).Aggregate(1, (a, b) => a * b);
+        return inspections.OrderByDescending(i => i).Take(2).Aggregate(1L, (a, b) => a * b);
     }
 
-    private record Monkey(List<int> Items, Func<int, int> Operation, Func<int, int> GetMonkeyToThrowTo);
+    private record Monkey(List<long> Items, Func<int, long> Operation, Test Test);
+
+    private record Test(int Divisor, int MonkeyIfDivisible, int MonkeyOtherwise);
 }
