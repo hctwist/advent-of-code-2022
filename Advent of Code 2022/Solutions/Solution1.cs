@@ -6,8 +6,8 @@ namespace AdventOfCode2022.Solutions;
 /// https://adventofcode.com/2022/day/1
 /// </summary>
 [Solution(1)]
-[SolutionInput("Input1.test.txt")]
-[SolutionInput("Input1.txt", Benchmark = true)]
+[SolutionInput("Input1.test.txt", Enabled = false)]
+[SolutionInput("Input1.txt", Benchmark = true, Problem1Solution = "68787", Problem2Solution = "198041")]
 public class Solution1 : Solution
 {
     private readonly List<List<int>> calories;

@@ -6,8 +6,8 @@ namespace AdventOfCode2022.Solutions;
 /// https://adventofcode.com/2022/day/2
 /// </summary>
 [Solution(2)]
-[SolutionInput("Input2.test.txt")]
-[SolutionInput("Input2.txt", Benchmark = true)]
+[SolutionInput("Input2.test.txt", Enabled = false)]
+[SolutionInput("Input2.txt", Benchmark = true, Problem1Solution = "13484", Problem2Solution = "13433")]
 public class Solution2 : Solution
 {
     private static readonly Dictionary<string, Move> MoveLookup = new()
@@ -100,7 +100,8 @@ public class Solution2 : Solution
             {
                 Outcome.Lose => LosingMoves[strategy.Move],
                 Outcome.Draw => strategy.Move,
-                Outcome.Win => WinningMoves[strategy.Move]
+                Outcome.Win => WinningMoves[strategy.Move],
+                _ => throw new ArgumentOutOfRangeException()
             };
             
             score += OutcomeScores[strategy.Response.Outcome];

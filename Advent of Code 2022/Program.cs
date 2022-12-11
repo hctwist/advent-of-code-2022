@@ -6,4 +6,4 @@ SolutionRunner runner = new(
     {
         InputBaseDirectory = "Input"
     });
-runner.SolveLatest();
+runner.SolveAll();

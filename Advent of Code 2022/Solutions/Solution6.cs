@@ -6,8 +6,8 @@ namespace AdventOfCode2022.Solutions;
 /// https://adventofcode.com/2022/day/6
 /// </summary>
 [Solution(6)]
-[SolutionInput("Input6.test.txt")]
-[SolutionInput("Input6.txt", Benchmark = true)]
+[SolutionInput("Input6.test.txt", Enabled = false)]
+[SolutionInput("Input6.txt", Benchmark = true, Problem1Solution = "1651", Problem2Solution = "3837")]
 public class Solution6 : Solution
 {
     public Solution6(Input input) : base(input)

@@ -6,8 +6,8 @@ namespace AdventOfCode2022.Solutions;
 /// https://adventofcode.com/2022/day/3
 /// </summary>
 [Solution(3)]
-[SolutionInput("Input3.test.txt")]
-[SolutionInput("Input3.txt", Benchmark = true)]
+[SolutionInput("Input3.test.txt", Enabled = false)]
+[SolutionInput("Input3.txt", Benchmark = true, Problem1Solution = "8394", Problem2Solution = "2413")]
 public class Solution3 : Solution
 {
     private readonly List<Rucksack> rucksacks;

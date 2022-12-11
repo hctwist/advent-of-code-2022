@@ -6,8 +6,8 @@ namespace AdventOfCode2022.Solutions;
 /// https://adventofcode.com/2022/day/4
 /// </summary>
 [Solution(4)]
-[SolutionInput("Input4.test.txt")]
-[SolutionInput("Input4.txt", Benchmark = true)]
+[SolutionInput("Input4.test.txt", Enabled = false)]
+[SolutionInput("Input4.txt", Benchmark = true, Problem1Solution = "513", Problem2Solution = "878")]
 public class Solution4 : Solution
 {
     private readonly List<(SectionRange, SectionRange)> sectionAssignments;
