@@ -7,8 +7,8 @@ namespace AdventOfCode2022.Solutions;
 /// https://adventofcode.com/2022/day/11
 /// </summary>
 [Solution(11)]
-[SolutionInput("Input11.test.txt")]
-[SolutionInput("Input11.txt", Benchmark = true)]
+[SolutionInput("Input11.test.txt", Enabled = false)]
+[SolutionInput("Input11.txt", Benchmark = true, Problem1Solution = "61005", Problem2Solution = "20567144694")]
 public class Solution11 : Solution
 {
     private static readonly Regex StartingItemsPattern = new(@"^\s*Starting items: (.*)$");

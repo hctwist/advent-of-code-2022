@@ -7,8 +7,8 @@ namespace AdventOfCode2022.Solutions;
 /// https://adventofcode.com/2022/day/10
 /// </summary>
 [Solution(10)]
-[SolutionInput("Input10.test.txt")]
-[SolutionInput("Input10.txt", Benchmark = true)]
+[SolutionInput("Input10.test.txt", Enabled = false)]
+[SolutionInput("Input10.txt", Benchmark = true, Problem1Solution = "14040")]
 public class Solution10 : Solution
 {
     private readonly List<int> registerHistory;
@@ -54,7 +54,7 @@ public class Solution10 : Solution
         for (int i = 0; i < registerHistory.Count - 1; i++)
         {
             int x = i % 40;
-            builder.Append(Math.Abs(x - registerHistory[i]) <= 1 ? '#' : '.');
+            builder.Append(Math.Abs(x - registerHistory[i]) <= 1 ? '@' : ' ');
 
             if (x == 39 & i < registerHistory.Count - 2)
             {
