@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
 using AdventOfCode.Framework;
 
@@ -15,7 +14,7 @@ public class Solution16Dijkstra : Solution
 {
     private const int Minutes = 30;
     private const string StartingValve = "AA";
-    
+
     private static readonly Regex Pattern = new(@"^Valve (\w\w) has flow rate=(\d+); tunnels? leads? to valves? (.+)$");
 
     private readonly Dictionary<string, Valve> valves;
@@ -53,36 +52,24 @@ public class Solution16Dijkstra : Solution
     /// <inheritdoc />
     protected override string? Problem1()
     {
-        ImmutableHashSet<Valve>.Builder closedValvesBuilder = ImmutableHashSet.CreateBuilder<Valve>();
-        foreach (Valve valve in nonZeroValves)
-        {
-            closedValvesBuilder.Add(valve);
-        }
-        
-        return ComputeMaximumFlow(new State(
-            valves[StartingValve], 
-            1,
-            0,
-            closedValvesBuilder.ToImmutable()))
-            .ToString();
+        return ComputeMaximumFlow(new SoloState(new Progress(valves[StartingValve], 1), 0, nonZeroValves.ToImmutableHashSet())).ToString();
     }
 
-    private int ComputeMaximumFlow(State state)
+    private int ComputeMaximumFlow(SoloState state)
     {
         int bestFlow = state.EventualFlow;
 
         foreach (Valve nextValve in state.ClosedValves)
         {
-            int nextMinute = state.Minute + routeLengths[new ValveRoute(state.Valve.Name, nextValve.Name)] + 1;
+            int nextMinute = state.Progress.Minute + routeLengths[new ValveRoute(state.Progress.Valve.Name, nextValve.Name)] + 1;
 
             if (nextMinute > Minutes)
             {
                 continue;
             }
 
-            State nextState = new(
-                nextValve,
-                nextMinute,
+            SoloState nextState = new(
+                new Progress(nextValve, nextMinute),
                 state.EventualFlow + (Minutes - nextMinute + 1) * nextValve.FlowRate,
                 state.ClosedValves.Remove(nextValve));
             bestFlow = Math.Max(bestFlow, ComputeMaximumFlow(nextState));
@@ -94,7 +81,58 @@ public class Solution16Dijkstra : Solution
     /// <inheritdoc />
     protected override string? Problem2()
     {
-        return null;
+        string max = ComputeMaximumFlow(
+                new PartneredState(
+                    new Progress(valves[StartingValve], 5),
+                    new Progress(valves[StartingValve], 5),
+                    0,
+                    nonZeroValves.ToImmutableHashSet()))
+            .ToString();
+        return max;
+    }
+
+    private int ComputeMaximumFlow(PartneredState state)
+    {
+        int bestFlow = state.EventualFlow;
+
+        foreach (Valve nextValve in state.ClosedValves)
+        {
+            // Me
+            {
+                int nextMinute = state.MyProgress.Minute + routeLengths[new ValveRoute(state.MyProgress.Valve.Name, nextValve.Name)] + 1;
+
+                if (nextMinute > Minutes)
+                {
+                    continue;
+                }
+
+                PartneredState nextState = new(
+                    new Progress(nextValve, nextMinute),
+                    state.ElephantProgress,
+                    state.EventualFlow + (Minutes - nextMinute + 1) * nextValve.FlowRate,
+                    state.ClosedValves.Remove(nextValve));
+                bestFlow = Math.Max(bestFlow, ComputeMaximumFlow(nextState));
+            }
+
+            // Elephant
+            {
+                int nextMinute = state.ElephantProgress.Minute + routeLengths[new ValveRoute(state.ElephantProgress.Valve.Name, nextValve.Name)] + 1;
+
+                if (nextMinute > Minutes)
+                {
+                    continue;
+                }
+
+                PartneredState nextState = new(
+                    state.MyProgress,
+                    new Progress(nextValve, nextMinute),
+                    state.EventualFlow + (Minutes - nextMinute + 1) * nextValve.FlowRate,
+                    state.ClosedValves.Remove(nextValve));
+                bestFlow = Math.Max(bestFlow, ComputeMaximumFlow(nextState));
+            }
+        }
+
+        return bestFlow;
     }
 
     private static Dictionary<ValveRoute, int> GetRouteLengths(Dictionary<string, Valve> valves, List<Valve> nonZeroValves)
@@ -125,11 +163,12 @@ public class Solution16Dijkstra : Solution
 
         List<KeyValuePair<ValveRoute, int>> mirroredRouteLengths = new();
 
-        foreach (KeyValuePair<ValveRoute,int> length in routeLengths)
+        foreach (KeyValuePair<ValveRoute, int> length in routeLengths)
         {
-            mirroredRouteLengths.Add(new KeyValuePair<ValveRoute, int>(
-                new ValveRoute(length.Key.To, length.Key.From),
-                length.Value));
+            mirroredRouteLengths.Add(
+                new KeyValuePair<ValveRoute, int>(
+                    new ValveRoute(length.Key.To, length.Key.From),
+                    length.Value));
         }
 
         foreach (KeyValuePair<ValveRoute, int> length in mirroredRouteLengths)
@@ -142,12 +181,12 @@ public class Solution16Dijkstra : Solution
 
     private static int GetRouteLength(Dictionary<string, DijkstraNode> nodes, ValveRoute route)
     {
-        foreach (KeyValuePair<string,DijkstraNode> node in nodes)
+        foreach (KeyValuePair<string, DijkstraNode> node in nodes)
         {
             node.Value.TentativeDistance = int.MaxValue;
         }
         nodes[route.From].TentativeDistance = 0;
-        
+
         HashSet<DijkstraNode> unvisitedNodes = new(nodes.Select(node => node.Value));
 
         while (unvisitedNodes.Count > 0)
@@ -158,7 +197,7 @@ public class Solution16Dijkstra : Solution
             {
                 return node.TentativeDistance;
             }
-            
+
             unvisitedNodes.Remove(node);
 
             foreach (string connectedValve in node.Valve.ConnectedValves)
@@ -187,11 +226,33 @@ public class Solution16Dijkstra : Solution
         }
     }
 
-    private record State(Valve Valve, int Minute, int EventualFlow, ImmutableHashSet<Valve> ClosedValves)
+    private record SoloState(Progress Progress, int EventualFlow, ImmutableHashSet<Valve> ClosedValves)
     {
         public override string ToString()
         {
-            return $"Valve = {Valve.Name}, Minute = {Minute}, Eventual flow = {EventualFlow}, Closed valves = {string.Join(", ", ClosedValves)}";
+            return $"Progress = {Progress}, Eventual flow = {EventualFlow}, Closed valves = {string.Join(", ", ClosedValves.Select(valve => valve.Name))}";
+        }
+    }
+
+    private record PartneredState(
+        Progress MyProgress,
+        Progress ElephantProgress,
+        int EventualFlow,
+        ImmutableHashSet<Valve> ClosedValves)
+    {
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"My progress = {MyProgress}, Elephant Progress = {ElephantProgress}, Eventual flow = {EventualFlow}, Closed valves = {string.Join(", ", ClosedValves.Select(valve => valve.Name))}";
+        }
+    }
+
+    private record Progress(Valve Valve, int Minute)
+    {
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"Valve = {Valve.Name}, Minute = {Minute}";
         }
     }
 
