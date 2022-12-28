@@ -7,7 +7,7 @@ namespace AdventOfCode2022.Solutions;
 /// <summary>
 /// https://adventofcode.com/2022/day/16
 /// </summary>
-[Solution(16)]
+[Solution(16, Enabled = false)]
 [SolutionInput("Input16.test.txt")]
 [SolutionInput("Input16.txt", Benchmark = true)]
 public class Solution16Dijkstra : Solution
@@ -97,36 +97,29 @@ public class Solution16Dijkstra : Solution
 
         foreach (Valve nextValve in state.ClosedValves)
         {
-            // Me
+            int myMinute = state.MyProgress.Minute + routeLengths[new ValveRoute(state.MyProgress.Valve.Name, nextValve.Name)] + 1;
+            int elephantMinute = state.ElephantProgress.Minute + routeLengths[new ValveRoute(state.ElephantProgress.Valve.Name, nextValve.Name)] + 1;
+
+            if (myMinute > Minutes & elephantMinute > Minutes)
             {
-                int nextMinute = state.MyProgress.Minute + routeLengths[new ValveRoute(state.MyProgress.Valve.Name, nextValve.Name)] + 1;
+                continue;
+            }
 
-                if (nextMinute > Minutes)
-                {
-                    continue;
-                }
-
+            if (myMinute <= elephantMinute)
+            {
                 PartneredState nextState = new(
-                    new Progress(nextValve, nextMinute),
+                    new Progress(nextValve, myMinute),
                     state.ElephantProgress,
-                    state.EventualFlow + (Minutes - nextMinute + 1) * nextValve.FlowRate,
+                    state.EventualFlow + (Minutes - myMinute + 1) * nextValve.FlowRate,
                     state.ClosedValves.Remove(nextValve));
                 bestFlow = Math.Max(bestFlow, ComputeMaximumFlow(nextState));
             }
-
-            // Elephant
+            else
             {
-                int nextMinute = state.ElephantProgress.Minute + routeLengths[new ValveRoute(state.ElephantProgress.Valve.Name, nextValve.Name)] + 1;
-
-                if (nextMinute > Minutes)
-                {
-                    continue;
-                }
-
                 PartneredState nextState = new(
                     state.MyProgress,
-                    new Progress(nextValve, nextMinute),
-                    state.EventualFlow + (Minutes - nextMinute + 1) * nextValve.FlowRate,
+                    new Progress(nextValve, elephantMinute),
+                    state.EventualFlow + (Minutes - elephantMinute + 1) * nextValve.FlowRate,
                     state.ClosedValves.Remove(nextValve));
                 bestFlow = Math.Max(bestFlow, ComputeMaximumFlow(nextState));
             }
