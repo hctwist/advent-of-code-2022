@@ -55,28 +55,7 @@ public class Solution15 : Solution
             }
         }
 
-        List<ClosedRange> resolvedRanges = new();
-
-        void ResolveRange(ClosedRange range)
-        {
-            for (int i = 0; i < resolvedRanges.Count; i++)
-            {
-                if (range.Intersects(resolvedRanges[i]))
-                {
-                    resolvedRanges[i] = resolvedRanges[i].Union(range);
-                    return;
-                }
-            }
-            
-            resolvedRanges.Add(range);
-        }
-
-        foreach (ClosedRange range in ranges)
-        {
-            ResolveRange(range);
-        }
-
-        return resolvedRanges.Sum(r => r.Length).ToString();
+        return ClosedRange.Aggregate(ranges).Sum(r => r.Length).ToString();
     }
 
     /// <inheritdoc />
@@ -104,6 +83,30 @@ public class Solution15 : Solution
     private readonly record struct ClosedRange(int From, int To)
     {
         public int Length => To - From;
+
+        public static List<ClosedRange> Aggregate(IEnumerable<ClosedRange> ranges)
+        {
+            List<ClosedRange> aggregatedRanges = new();
+
+            void AggregateRange(ClosedRange range)
+            {
+                for (int i = 0; i < aggregatedRanges.Count; i++)
+                {
+                    if (range.Intersects(aggregatedRanges[i]))
+                    {
+                        aggregatedRanges[i] = aggregatedRanges[i].Union(range);
+                        return;
+                    }
+                }
+            
+                aggregatedRanges.Add(range);
+            }
+
+            foreach (ClosedRange range in ranges)
+            {
+                AggregateRange(range);
+            }
+        }
 
         public bool Intersects(ClosedRange other)
         {
